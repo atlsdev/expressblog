@@ -1,0 +1,31 @@
+var express = require("express");
+var fs = require("fs");
+var md = require("markdown-it")({breaks: true, links: true, html: false, typographer: true});
+
+var posts = fs.readdirSync(`${__dirname}/posts`).reverse();
+
+var app = express();
+app.use(express.json());
+app.set("view engine", "ejs");
+
+app.get("/assets/:file", (req, res) => res.sendFile(`${__dirname}/assets/${req.params.file}`));
+
+app.get("/", (req, res) => {
+	posts = fs.readdirSync(`${__dirname}/posts`).reverse();
+	var postsObj = posts.map(post => {
+		obj = { name: post.replace(".txt", ""), content: md.render(fs.readFileSync(`${__dirname}/posts/${post}`, "utf8")) };
+		return obj;
+	});
+	res.render("index", { posts: postsObj });
+});
+
+app.get("/api/posts/", (req, res) => {
+	posts = fs.readdirSync(`${__dirname}/posts`).reverse();
+	var postsObj = posts.map(post => {
+		obj = { name: post.replace(".txt", ""), content: md.render(fs.readFileSync(`${__dirname}/posts/${post}`, "utf8")) };
+		return obj;
+	});
+	res.send({posts: postsObj});
+});
+
+app.listen(9999, () => console.log("Listening on 9999"));

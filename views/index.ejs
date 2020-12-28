@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name=description content="My feelings...">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<title>My thoughts and feelings</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1/new.min.css">
+	<link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
+	<link rel="stylesheet" type="text/css" href="/assets/index.css">
+</head>
+<body>
+	<div class="posts">
+		<% posts.forEach(post => { %>
+			<div class="post">
+				<h1 class="title"><%= post.name.split("-")[0]+"/"+post.name.split("-")[1]+"/"+post.name.split("-")[2] %></h1>
+				<details class="content"><%- post.content %></details>
+			</div>
+		<% }); %>
+	</div>
+</body>
+</html>
